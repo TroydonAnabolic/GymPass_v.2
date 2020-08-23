@@ -765,23 +765,17 @@ div#my_camera {
 
 /* Log workout styling */
 .workout-log-bg {
-    position: absolute;
     background-image: url('../images/log-workout-bg.png');
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: contain;
-    top: 5rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    background-size:cover;
     width: 100%;
     height: 100%;
     opacity: 0.3;
-    height: 100%;
-    width: 100%;
 }
 
 .containerz {
+    opacity: 0.6;
     position: absolute;
     border: 0.5rem solid #007bff;
     text-align: center;
@@ -854,14 +848,23 @@ input#Input_UserImage.upload-file {
     /*border: 2px solid #fff;*/
 }
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-    .main-gym-icon {
+/* Super small devices (phones, 600px and down) */
+@media only screen and (max-height: 568px ) {
+    .access-container {
+        margin: 0;
     }
+  /*  .access {
+        background-color: aliceblue;
+    }*/
+}
 
-    .title-name {
-        font-size: 1.5rem;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-height: 667px ), screen and (min-height: 568px) {
+    .access-container {
+        display: inline-block;
+        margin-top: 1rem;
     }
+}
 
     /* Small devices (portrait tablets and large phones, 600px and up) */
     @media only screen and (min-width: 600px) {
