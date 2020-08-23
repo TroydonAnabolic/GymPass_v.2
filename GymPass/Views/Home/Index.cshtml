@@ -168,9 +168,9 @@
                                 @* This is where my camera element is rendered to the UI *@
                                 <div id="my_camera"></div>
                                 <div class="urlPasar" data-request-url="@Url.Action("Index","Home")"></div>
-                            @*<form>
-                                <input id="btn-capture" type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
-                            </form>*@  
+                                @*<form>
+                                        <input id="btn-capture" type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
+                                    </form>*@
                             </div>
                         </div>
                     </div>
@@ -256,7 +256,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="locked nav-link btn">
-                                <i id="submit-icon" class="fa fa-lock"onClick="take_snapshot()"></i> 
+                                <i id="submit-icon" class="fa fa-lock" onClick="take_snapshot()"></i>
                             </button>
                         </div>
                     </form>
@@ -350,6 +350,13 @@
                 }
             }
         </div>
+        @* Display a red dot to indicate we are currently waiting for current person to enter the gym *@
+        @if (!@UserManager.GetUserAsync(User).Result.IsInsideGym)
+        {
+            <div id="open-door-request" class="">
+
+            </div>
+        }
     </div>
 }
 

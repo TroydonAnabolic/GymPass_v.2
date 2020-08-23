@@ -280,9 +280,9 @@ textarea {
     border-radius: 5%;
 }
 
-.border-nav:hover {
-    background-color: aqua;
-}
+    .border-nav:hover {
+        background-color: aqua;
+    }
 
 .sidenav a:hover {
     color: #f1f1f1;
@@ -768,7 +768,7 @@ div#my_camera {
     background-image: url('../images/log-workout-bg.png');
     background-position: center center;
     background-repeat: no-repeat;
-    background-size:cover;
+    background-size: cover;
     width: 100%;
     height: 100%;
     opacity: 0.3;
@@ -848,27 +848,54 @@ input#Input_UserImage.upload-file {
     /*border: 2px solid #fff;*/
 }
 
+#open-door-request {
+    height: 25px;
+    width: 25px;
+    background-color: #8c0000;
+    border-radius: 50%;
+    margin-left: 1rem;
+}
+
 /* Super small devices (phones, 600px and down) */
 @media only screen and (max-height: 568px ) {
     .access-container {
         margin: 0;
     }
-  /*  .access {
-        background-color: aliceblue;
-    }*/
+
 }
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-height: 667px ), screen and (min-height: 568px) {
+@media only screen and (max-height: 640px ) {
     .access-container {
         display: inline-block;
         margin-top: 1rem;
     }
-}
-
-    /* Small devices (portrait tablets and large phones, 600px and up) */
-    @media only screen and (min-width: 600px) {
+    #open-door-request {
+        margin-top: 1rem;
     }
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-height: 667px ) and (min-height: 641px) {
+    .access-container {
+        display: inline-block;
+        margin-top: 1rem;
+    }
+    #open-door-request {
+        margin-top: 1.5rem;
+    }
+}
+@media only screen and (max-height: 736px ) and (min-height: 668px) {
+    #open-door-request {
+        margin-top: 0;
+    }
+}
+@media only screen and (min-height: 737px ) {
+    #open-door-request {
+        margin-top: -2rem;
+    }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
     /* End navigation animation*/
 
     /* Medium devices (landscape tablets, 768px and up) */
