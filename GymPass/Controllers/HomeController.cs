@@ -15,6 +15,7 @@ using Amazon.Rekognition.Model;
 using Amazon.S3;
 using Microsoft.AspNetCore.Http.Extensions;
 using System.Text;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GymPass.Controllers
 {
@@ -104,6 +105,8 @@ namespace GymPass.Controllers
             if (DateTime.Now <= (user.TimeAccessDenied.AddSeconds(10)))
                 ViewBag.AccessDeniedMsgRecieved = false;
 
+            ViewBag.AccessRequestedTime = _facilityContext.Facilities.FirstOrDefault().TimeAccessRequested;  // assign access request time to be based on the time any user requested it
+
             // TODO: Logic for conditonally displaying if current time after last workout logged then send to log workout, and inside gym
             //if (DateTime.Now > user.TimeLoggedWorkout && user.IsInsideGym)
             //    return RedirectToAction("LogWorkout", "Facilities", new { id = user.DefaultGym });
@@ -146,7 +149,7 @@ namespace GymPass.Controllers
         [Route("Home/Index/{id?}", Name = "Auth")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(int id, [Bind("FacilityID,FacilityName,NumberOfClientsUsingWeightRoom,NumberOfClientsUsingCardioRoom," +
-            "NumberOfClientsUsingStretchRoom,IsOpenDoorRequested,DoorOpened,DoorCloseTimer,IsCameraScanSuccessful, IsWithin10m")] Facility facilityView,
+            "NumberOfClientsUsingStretchRoom,IsOpenDoorRequested,DoorOpened,DoorCloseTimer,IsCameraScanSuccessful, IsWithin10m, TimeAccessRequested")] Facility facilityView,
             [Bind("ErrorMessage")] Error Errors
             ) // 
         {
@@ -198,6 +201,10 @@ namespace GymPass.Controllers
         {
             if (facilityView.IsOpenDoorRequested)
             {
+                // if 5 seconds has passed since access requested, then return to page
+                if (facility.TimeAccessRequested <= facility.TimeAccessRequested.AddSeconds(5)) RedirectToAction(nameof(Index));
+
+                facilityView.TimeAccessRequested = DateTime.Now;
                 // perform facial recognition scan if not inside the gym
                 if (!user.IsInsideGym) await FacialRecognitionScan(user, currentFacilityDetail, Errors);
 
@@ -252,7 +259,7 @@ namespace GymPass.Controllers
                 // if door has been opened and user is authorised
                 if (facility.DoorOpened && user.AccessGrantedToFacility)
                     // log the time granted, and wait 5 seconds.
-                    System.Threading.Thread.Sleep(5000);
+                    System.Threading.Thread.Sleep(3000);
 
                 // When 5 second timer finishes, we close the door again automatically
                 facility.IsOpenDoorRequested = false;
@@ -308,8 +315,6 @@ namespace GymPass.Controllers
             // delete detected image from S3 bucket
             try
             {
-               
-
                 var deleteObjectRequest = new Amazon.S3.Model.DeleteObjectRequest
                 {
                     BucketName = bucket,
@@ -341,8 +346,6 @@ namespace GymPass.Controllers
                 string photo = $"{user.FirstName}_{user.Id}.jpg";
                 String targetImage = $"{user.FirstName}_{user.Id}_Target.jpg"; // Remove g from jpg TODO Test logging
                 float similarityResult = 2f;
-                StringBuilder sbComp = new StringBuilder();
-                StringBuilder sbDet = new StringBuilder();
 
                 try
                 {
@@ -355,7 +358,6 @@ namespace GymPass.Controllers
                             Bucket = bucket
                         },
                     };
-                    sbComp.Append(">Img Src: " + imageSource.S3Object.Name + ", ");
 
                     Image imageTarget = new Image()
                     {
@@ -365,7 +367,6 @@ namespace GymPass.Controllers
                             Bucket = bucket
                         },
                     };
-                    sbComp.Append(">Img Target: " + imageTarget.S3Object.Name + ", ");
 
                     // create a compare face request object
                     CompareFacesRequest compareFacesRequest = new CompareFacesRequest()
@@ -374,12 +375,9 @@ namespace GymPass.Controllers
                         TargetImage = imageTarget,
                         SimilarityThreshold = similarityThreshold
                     };
-                    sbComp.Append("> Comp face  req: " + compareFacesRequest.ToString() + ", ");
 
                     // detect face features of img scanned
                     CompareFacesResponse compareFacesResponse = await AmazonRekognition.CompareFacesAsync(compareFacesRequest);
-                    sbComp.Append("> Comp face respo: " + compareFacesResponse.ToString() + "Unmatched faces: " + compareFacesResponse.UnmatchedFaces.ToString()
-                        + compareFacesResponse.SourceImageFace + compareFacesResponse.HttpStatusCode +  ", ");
 
                     // Display results
                     foreach (CompareFacesMatch match in compareFacesResponse.FaceMatches)
@@ -398,8 +396,7 @@ namespace GymPass.Controllers
                 catch (Exception e)
                 {
                     _logger.LogInformation(e.Message);
-                    await SaveErrorToDB(Errors, e, "Compare Face", photo, targetImage, bucket, similarityResult,
-                        sbComp.ToString());
+                    await SaveErrorToDB(Errors, e, "Compare Face", photo, targetImage, bucket, similarityResult);
                 }
 
                 // now add get facial details to display in the view.
@@ -420,11 +417,8 @@ namespace GymPass.Controllers
                 try
                 {
                     DetectFacesResponse detectFacesResponse = await AmazonRekognition.DetectFacesAsync(detectFacesRequest);
-                    sbDet.Append("> Detect face req: " + detectFacesRequest.ToString() + ", ");
 
                     bool hasAll = detectFacesRequest.Attributes.Contains("ALL");
-
-                    sbDet.Append("> Detect face response: " + detectFacesResponse.ToString() + ", ");
 
                     foreach (FaceDetail face in detectFacesResponse.FaceDetails)
                     {
@@ -435,10 +429,8 @@ namespace GymPass.Controllers
                             currentFacilityDetail.Gender = face.Gender.Value.ToString();
                             currentFacilityDetail.AgeRangeLow = face.AgeRange.Low;
                             currentFacilityDetail.AgeRangeHigh = face.AgeRange.High;
-                            sbDet.Append(face.Gender.Value.ToString().ToString() + ", ");
                         }
                     }
-                   
 
                 }
                 catch (Exception e)

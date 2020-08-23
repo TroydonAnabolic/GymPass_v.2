@@ -856,6 +856,23 @@ input#Input_UserImage.upload-file {
     margin-left: 1rem;
 }
 
+.blink {
+    animation: blink-animation 0.5s steps(5, start) infinite;
+    -webkit-animation: blink-animation 0.5s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
 /* Super small devices (phones, 600px and down) */
 @media only screen and (max-height: 568px ) {
     .access-container {

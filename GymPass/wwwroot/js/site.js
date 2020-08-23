@@ -146,7 +146,7 @@ $(document).ready(function () {
         var scan = $('body > main > div.access > div > div.door-status.temp-scan.hidden').removeClass('hidden');
         setTimeout(function () {
             scan.addClass('hidden');
-        }, 5000);
+        }, 3000);
     });
 
     // Change between estimated total and actual total

@@ -36,5 +36,6 @@ namespace GymPass.Models
         public bool IsWithin10m { get; set; }
         public string Latitude { get; set; } = "-34.006388";
         public string Longitude { get; set; } = "150.858975";
+        public DateTime TimeAccessRequested { get; internal set; }
     }
 }
