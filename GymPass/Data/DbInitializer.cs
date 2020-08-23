@@ -21,7 +21,7 @@ namespace GymPass.Data
            {
                 new Facility{FacilityName="Super Saiyan Gym",NumberOfClientsInGym=0,NumberOfClientsUsingCardioRoom =0,NumberOfClientsUsingStretchRoom=0,NumberOfClientsUsingWeightRoom=0,
                 IsOpenDoorRequested=false,DoorOpened=false,DoorCloseTimer=default(TimeSpan),UserTrainingDuration=default(TimeSpan),TotalTrainingDuration=default(TimeSpan),WillUseCardioRoom=false,
-                WillUseStretchRoom=false,WillUseWeightsRoom=false,IsCameraScanSuccessful=false,IsWithin10m=false,Latitude=string.Empty,Longitude=string.Empty,},
+                WillUseStretchRoom=false,WillUseWeightsRoom=false,IsCameraScanSuccessful=false,IsWithin10m=false,Latitude=string.Empty,Longitude=string.Empty,TimeAccessRequested=DateTime.Now,},
            };
 
             facilityContext.Facilities.AddRange(facilities);

@@ -902,7 +902,7 @@ input#Input_UserImage.upload-file {
 }
 @media only screen and (max-height: 736px ) and (min-height: 668px) {
     #open-door-request {
-        margin-top: 0;
+        margin-top: -1rem;
     }
 }
 @media only screen and (min-height: 737px ) {

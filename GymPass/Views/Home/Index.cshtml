@@ -351,12 +351,9 @@
             }
         </div>
         @* Display a red dot to indicate we are currently waiting for current person to enter the gym *@
-        @if (!@UserManager.GetUserAsync(User).Result.IsInsideGym)
-        {
             <div id="open-door-request" class="blink">
 
             </div>
-        }
     </div>
 }
 

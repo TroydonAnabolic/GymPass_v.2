@@ -50,7 +50,7 @@ namespace GymPass.Controllers
         // GET: Home/Index/1
         // TODO: We begin using id = 1 for now, later will implement dynamically changing this ID number, if it is null then redirect to action choose gym
         [HttpGet]
-       //[Route("Home/Index/10")] // TODO: Test
+        //[Route("Home/Index/10")] // TODO: Test
         [Authorize]
         public async Task<IActionResult> Index(int? id)
         {
@@ -116,7 +116,7 @@ namespace GymPass.Controllers
 
         private DateTime GetEstimatedNumberOfGymUsers(List<UsersInGymDetail> facilityDetails, DateTime estimatedTimeToCheck, DateTime estimatedExitTimeCurrentUser)
         {
-            DateTime defaultValue =  default(DateTime);
+            DateTime defaultValue = default(DateTime);
 
             // if there are people in the gym
             if (facilityDetails.Count > 0)
@@ -178,7 +178,12 @@ namespace GymPass.Controllers
             {
                 try
                 { // maybe make is open door requested a user property
-                  // if door open is requested from the view by clicking the button, then run the below logic to test if user is authorized and also apply crowdsensing functions
+                  // if 3 seconds has not passed since access requested, then return to page. (Effort to prevent invalid table properties, from multiple simultaneous requests that may damage application logic)
+                    var timeSinceAccessRequested = DateTime.Now - facility.TimeAccessRequested;
+                    if (timeSinceAccessRequested < TimeSpan.FromSeconds(3)) return RedirectToAction(nameof(Index));
+                    // assign time requested when
+                    facility.TimeAccessRequested = DateTime.Now;
+                    // if door open is requested from the view by clicking the button, then run the below logic to test if user is authorized and also apply crowdsensing functions
                     enteredGym = await DetermineEnterOrExitGym(facilityView, user, facility, facilityDetails, currentFacilityDetail, currentFacilityDetailDb, enteredGym, allGymUserRecords, Errors);
                 }
                 catch (DbUpdateConcurrencyException e)
@@ -201,10 +206,6 @@ namespace GymPass.Controllers
         {
             if (facilityView.IsOpenDoorRequested)
             {
-                // if 5 seconds has passed since access requested, then return to page
-                if (facility.TimeAccessRequested <= facility.TimeAccessRequested.AddSeconds(5)) RedirectToAction(nameof(Index));
-
-                facilityView.TimeAccessRequested = DateTime.Now;
                 // perform facial recognition scan if not inside the gym
                 if (!user.IsInsideGym) await FacialRecognitionScan(user, currentFacilityDetail, Errors);
 
@@ -331,7 +332,7 @@ namespace GymPass.Controllers
             catch (Exception e)
             {
                 _logger.LogInformation(e.Message);
-                await SaveErrorToDB(Errors, e, "Delete Source Image", keyName, "no target", bucket, 0f );
+                await SaveErrorToDB(Errors, e, "Delete Source Image", keyName, "no target", bucket, 0f);
             }
         }
 
@@ -452,7 +453,7 @@ namespace GymPass.Controllers
         public async Task<IActionResult> OnSelectCamButton()
         {
 
-        var UserInfo = await _userManager.GetUserAsync(User);
+            var UserInfo = await _userManager.GetUserAsync(User);
 
 
             if (UserInfo.Id == null) return NotFound();
@@ -462,7 +463,7 @@ namespace GymPass.Controllers
             return View(UserInfoVM);
         }
 
-            public IActionResult Privacy()
+        public IActionResult Privacy()
         {
             return View();
         }
