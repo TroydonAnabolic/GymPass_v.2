@@ -1,0 +1,67 @@
+﻿@model GymPass.Models.Facility
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Facility</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FacilityName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FacilityName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfClientsInGym)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfClientsInGym)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfClientsUsingWeightRoom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfClientsUsingWeightRoom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfClientsUsingCardioRoom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfClientsUsingCardioRoom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfClientsUsingStretchRoom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfClientsUsingStretchRoom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsOpenDoorRequested)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsOpenDoorRequested)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DoorOpened)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DoorOpened)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DoorCloseTimer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DoorCloseTimer)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.FacilityID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

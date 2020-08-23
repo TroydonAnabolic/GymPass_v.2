@@ -1,0 +1,27 @@
+Copyright © Benjamin Sweetnam, Troydon Luicien,  Marcos Esgueva, Cameron Choy,
+2020 All Rights Reserved.
+
+Except as permitted by the copyright law applicable to you, you may not reproduce
+or communicate any of the content on this website, including files downloadable
+from this website, without the permission of the copyright owner.
+The Australian Copyright Act allows certain uses of content from the internet
+without the copyright owner’s permission. This includes uses by educational
+institutions and by Commonwealth and State governments, provided fair
+compensation is paid. For more information, see www.copyright.com.au and
+www.copyright.org.au.
+The owners of copyright in the content on this website may receive compensation
+for the use of their content by educational institutions and governments, including
+from licensing schemes managed by Copyright Agency.
+We may change these terms of use from time to time. Check before re-using any
+content from this website.
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

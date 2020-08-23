@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql.local",
+      "connectionId": "DefaultConnection"
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "FacilityContext"
+    },
+    "secrets1": {
+      "type": "secrets.user"
+    }
+  }
+}

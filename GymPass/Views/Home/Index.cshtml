@@ -1,0 +1,360 @@
+﻿@model GymPass.Models.Facility
+@using GymPass.Helpers;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "GYM PASS";
+}
+
+@* Start Navigation *@
+@if (SignInManager.IsSignedIn(User))
+{
+    <div id="url-home" class="hidden">@ViewBag.HomeUrl</div>
+    <nav class="main-nav">
+        <i class="fa fa-bars" onclick="openNav()"></i>
+    </nav>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="nav-other">
+            <a asp-action="Index" asp-controller="Home" asp-route-id="@UserManager.GetUserAsync(User).Result.DefaultGym" class="border-nav">MY GYM</a>
+            <a class="border-nav" href="#">Select Facility</a>
+            <a class="border-nav" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Dashboard</a>
+        </div>
+        @*<div >
+                <a href="#">Contact</a>
+            </div>*@
+
+        <form id="logout-main" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="nav-link btn text-light main-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </form>
+    </div>
+
+    @* End Navigation *@
+
+    @* Blur out the main gym icon when not inside *@
+    <div class="@(@UserManager.GetUserAsync(User).Result.IsInsideGym ? " main-gym" : "not-in-use")">
+        <div class="main-gym-icon">
+            <div class="title-name">
+                @ViewData["Title"]
+            </div>
+
+            @*if user is in gym then we can go here*@
+            <div class="@(@UserManager.GetUserAsync(User).Result.IsInsideGym ? "log-workout-home" : "hidden") ">
+                <a asp-action="LogWorkout" asp-controller="Facilities" asp-route-id="@UserManager.GetUserAsync(User).Result.DefaultGym"> Log Workout</a>
+            </div>
+
+            <div class="occupancy-title">
+                Gym Occupany
+            </div>
+            <div class="main-pop-cont">
+                <div class="realtime-indicator">
+                    <div class="realtime-icons">
+                        <img src="~/images/dumbbell.png" />
+                    </div>
+                    Weights: @Model.NumberOfClientsUsingWeightRoom
+                </div>
+                <div class="realtime-indicator">
+                    <div class="realtime-icons">
+                        <img src="~/images/icons8-treadmill-100.png" />
+                    </div>
+                    Cardio: @Model.NumberOfClientsUsingCardioRoom
+                </div>
+                <div class="realtime-indicator">
+                    <div class="realtime-icons">
+                        <img src="~/images/icons8-warm-up-100.png" />
+                    </div>
+                    Stretch: @Model.NumberOfClientsUsingStretchRoom
+                </div>
+                @* The actual number shows by default, js will interchange between the two on click ( *@
+                <div id="total-in-gym-icon" class="realtime-indicator">
+                    <div class="realtime-icons total-pic">
+                        <img src="~/images/Capacity/capacity-80.png" />
+                    </div>
+                    Total:  @Model.NumberOfClientsInGym
+                </div>
+                <div id="est-total-in-gym-icon" class="realtime-indicator">
+                    <div class="realtime-icons est-pic">
+                        <img src="~/images/Capacity/capacity-80.png" />
+                    </div>
+                    <div class="contain-est">
+                        <div id="estimated-number" class="est-data">
+                            ETotal: @ViewBag.EstimatedNumberInGym
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="expand-select-duration-arrow ">
+                <i id="svg-arrow" class='fas fa-angle-double-right'></i>
+            </div>
+            @* This allows you to select a time you wish to check for estimated population in the gym, based on clients iputted estimated time *@
+            <div id="est-drop-down" class="hidden">
+                @* Use of specific action method and controllers to submit to a different controller, onchange function is used to submit form when user selects a value *@
+                <form id="est-form" asp-action="SelectTimeToEstimate" asp-controller="Facilities" onchange="submitForm()" data-ajax="true" data-ajax-update="estimated-number">
+                    @* The name attribute in the select box and id ensures that the data is bound to this form*@
+                    <select data-val="true" data-val-regex="Time must be between 00:00 to 23:59"
+                            data-val-regex-pattern="((([0-1][0-9])|(2[0-3]))(:[0-5][0-9])(:[0-5][0-9])?)"
+                            data-val-required="The Workout Duration field is required." id="userDetails"
+                            name="userDetails">
+                        <option>Select hour to estimate</option>
+                        <option onClick="document.forms['userDetails'].submit();"
+                                value="@DateTime.Now">
+                            0 minutes
+                        </option>
+
+                        <option value="@DateTime.Now.AddMinutes(20)">
+                            20 minutes
+                        </option>
+                        <option onClick="document.forms['userDetails'].submit();"
+                                value="@DateTime.Now.AddMinutes(40)">
+                            40 minutes
+                        </option>
+                        <option onClick="document.forms['userDetails'].submit();"
+                                value="@DateTime.Now.AddMinutes(60)">
+                            1 hour
+                        </option>
+                        <option onClick="document.forms['userDetails'].submit();"
+                                value="@DateTime.Now.AddMinutes(90)">
+                            1 hour 30 minutes
+                        </option>
+                        <option onClick="document.forms['userDetails'].submit();"
+                                value="@DateTime.Now.AddMinutes(120)">
+                            2 hours
+                        </option>
+                    </select>
+                    <noscript><input type="submit" value="Submit"></noscript>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    @* Popup modal for camera and maps*@
+    <div id="map" class="modalz">
+        <!-- Modal content -->
+        <div class="modalz-content">
+            <div class="modalz-header">
+                <span class="close">&times;</span>
+                <h5>@Model.FacilityName Location</h5>
+            </div>
+            <div id="mapContainer" class="modal-body" style="z-index:10;">
+            </div>
+        </div>
+    </div>
+
+    @* start cam *@
+    <!-- Camera Modal -->
+    <div id="camera" class="modalz">
+        <!-- Modal content -->
+        <div class="modalz-content">
+            <div class="modalz-header">
+                <span class="close">&times;</span>
+                <h4>@Model.FacilityName Camera</h4>
+            </div>
+            <div class="modalz-body">
+                @* When we click open door we trigger this logic *@
+
+                <div id="camera-img">
+                    @*CAMERA IMAGE HERE *@
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                @* This is where my camera element is rendered to the UI *@
+                                <div id="my_camera"></div>
+                                <div class="urlPasar" data-request-url="@Url.Action("Index","Home")"></div>
+                            <form>
+                                <input id="btn-capture" type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
+                            </form>  
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <div id="results"> </div>
+                        </div>
+                    </div>
+                </div>
+                @* Show scan results, if successful display face details, if not smiling, say smile, if smiling say looks like your ready to smash the gym, have *@
+                @if (@UserManager.GetUserAsync(User).Result.IsInsideGym)
+                {
+                    <div class="face-match-outcome">
+                        <h4 id="face-match-result">Facial Match Success!</h4>
+                        @if (ViewBag.IsSmiling)
+                        {
+                            <h6>Great! Looks like your ready to smash the gym</h6>
+                        }
+                        else
+                        {
+                            <h6> Your not smiling, Don't forget to smash it!</h6>
+                        }
+                        <h6>Gender: @ViewBag.Gender</h6>
+                        <h6>Yoru age range low: @ViewBag.AgeRangeLow</h6>
+                        <h6>Your age range high: @ViewBag.AgeRangeHigh</h6>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @* end cam *@
+
+    <div class="access">
+
+        @* Map and button trigger to reveal what is currently happening after clicking button for each context
+            e.g camera will show a search icon on click with current geo cords, security camera will show the phones facial recognition (if that can work)*@
+        <div id="map-button">
+            <i class="fas fa-map-marked-alt"></i>
+        </div>
+        <div id="camera-button">
+            <i class="fas fa-video"></i>
+        </div>
+
+        <div class="access-container">
+            @{
+                // If the door is not currently opened show the lock symbol
+                if (!ViewBag.DoorOpened)
+                {
+                    // Hide these form inputs and automatically post set values on click
+
+                    <form asp-action="Index">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="FacilityID" />
+
+                        <div class="form-group form-check hidden" style="height:0px;">
+                            <label class="form-check-label">
+                                <input id="open-door" class="form-check-input" asp-for="IsOpenDoorRequested" /> @Html.DisplayNameFor(model => model.IsOpenDoorRequested)
+                            </label>
+                        </div>
+
+                        @* element <div id="dlat extracts the current value of my gym’s co-ordinates we set earlier from the database, by using @ViewBag.DefaultLong
+                            and displays this as hidden values in my html, which is then grabbed in javascript to use for calculating whether user is close enough *@
+                        <div id="dlat" class="hidden">@ViewBag.DefaultLat</div><div id="dlong" class="hidden">@ViewBag.DefaultLong</div>
+                        @*  My co-ords: lat: -34.006388 Lng: 150.858975 *@
+
+                        @* Location Entry
+                            When the lock button is pushed, if the user is within 40m, it will set this to checked
+                        *@
+                        <div class="form-group form-check hidden" style="height:0px;">
+                            <label class="form-check-label">
+                                <input id="user-location" class="form-check-input" asp-for="IsWithin10m" /> @Html.DisplayNameFor(model => model.IsWithin10m)
+                            </label>
+                        </div>
+
+                        @if (ViewBag.AccessGrantedToFacility)
+                        {
+                            // TODO: Learn/use AJAX to asynchronously transfer the data in between controller and view to enter exercise log on the same page?
+                        }
+                        @* End Modal for training intentions *@
+
+                        <div class="form-group">
+                            <button type="submit" class="locked nav-link btn">
+                                <i id="submit-icon" class="fa fa-lock"></i> @*onClick="take_snapshot()*@
+                            </button>
+                        </div>
+                    </form>
+
+                }
+                // if the door is opened show the unlocked symbol and also present the modal
+                else if (ViewBag.DoorOpened)
+                {
+                    <form asp-action="Index">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="FacilityID" />
+                        @* start cam *@
+                        <!-- Camera Modal -->
+                        <div id="camera" class="modalz">
+                            <!-- Modal content -->
+                            <div class="modalz-content">
+                                <div class="modalz-header">
+                                    <span class="close">&times;</span>
+                                    <h4>@Model.FacilityName</h4>
+                                </div>
+                                @* When we click open door we trigger this logic *@
+                                @* Show scan results, if successful display face details, if not smiling, say smile, if smiling say looks like your ready to smash the gym, have *@
+                                @if (@UserManager.GetUserAsync(User).Result.IsInsideGym)
+                                {
+                                    <div class="modalz-body">
+
+                                        <h4>Facial Match success!</h4>
+                                        @if (ViewBag.IsSmiling)
+                                        {
+                                            <h6>Great! Looks like your ready to smash the gym</h6>
+                                        }
+                                        else
+                                        {
+                                            <h6>You are not smiling, dont forget to smash it!</h6>
+                                        }
+                                        <h6>Gender: @ViewBag.Gender</h6>
+                                        <h6>Yoru age range low: @ViewBag.AgeRangeLow</h6>
+                                        <h6>Your age range high: @ViewBag.AgeRangeHigh</h6>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        @* end cam *@
+
+                        <div class="form-group form-check hidden">
+                            <label class="form-check-label">
+                                <input id="deep-lens-scan" class="form-check-input" asp-for="IsOpenDoorRequested " /> @Html.DisplayNameFor(model => model.IsOpenDoorRequested)
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="unlocked nav-link btn">
+                                <i class="fas fa-lock-open"></i>
+                            </button>
+                        </div>
+                    </form>
+                }
+            }
+
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
+
+            @{
+                // Only when the user is not inside the gym do we trigger the status messages (given it is pressed, this ensures it is not trigerred when trying to leave)
+                if (!@UserManager.GetUserAsync(User).Result.IsInsideGym)
+                {
+                    // using jQuery we remove hidden attribute on button push, when user is not inside gym, and show for 2 seconds always
+                    <div class="door-status temp-scan hidden">
+                        SCANNING
+                    </div>
+                    // use of view bag as we cannot get access granted property value until the data is saved to the database, whilst view bag
+                    // if access denied msg not received, access is denied previously, and door open is requested
+                    // if access denied msg is received and the user is not auth
+                    if (!ViewBag.AccessDeniedMsgRecieved) //  && ViewBag.AccessGrantedToFacility
+                    {
+                        <div class="door-status">ACCESS DENIED!</div>
+                    }
+                }
+                // if user is inside the gym, show welcome message
+                else if (@UserManager.GetUserAsync(User).Result.IsInsideGym)
+                {
+                    // access is granted is shown when the server has access granted (page was refreshed)
+                    if (@UserManager.GetUserAsync(User).Result.AccessGrantedToFacility)
+                    {
+                        <div class="door-status">
+                            WELCOME @UserManager.GetUserAsync(User).Result.FirstName!
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+}
+
+@* Hide the top navigation bar when on main page *@
+<script>
+    // always hide header on this page
+    $(" header").hide();
+</script>

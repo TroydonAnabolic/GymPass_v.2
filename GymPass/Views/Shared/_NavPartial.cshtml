@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <header>
+        <div class="back-button">
+            @* Navigation *@
+            <a asp-action="Index" asp-controller="Home" asp-route-id="@UserManager.GetUserAsync(User).Result.DefaultGym" class="btn btn-primary">
+                <i class="fas fa-arrow-circle-left"></i>
+            </a>
+        </div>
+        <div class="title-name">
+            @ViewData["Title"]
+        </div>
+    </header>
+}
+else
+{
+
+}

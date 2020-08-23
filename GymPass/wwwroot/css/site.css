@@ -1,0 +1,968 @@
+﻿/*! HTML5 Boilerplate v7.2.0 | MIT License | https://html5boilerplate.com/ */
+
+/* main.css 2.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/*
+    Color Palette
+    Theme colour: #1B6EF7 (Blue)
+    Background color filler: cadetblue
+*/
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+/*
+ * Sets all default padding and margin to 0
+ */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* We set flexbox to align the contents in a column. The elements should stretch so that they span the whole width, and not just the width their contents take up. */
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: grey; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to bottom, #f0f0f0, #787878); /* Standard syntax (must be last) */
+}
+/* flex-grow: 1 on main makes it grow to fill the available space. This puts the footer at the bottom, since main takes up all the space in the middle. */
+main {
+    flex-grow: 1;
+}
+
+/* stops the items from shrinking if there is not enough space, which happens if the content is larger than the screen, this happens as flex : 1 is default and triggers it */
+header, main, footer {
+    flex-shrink: 0;
+}
+
+body > footer {
+    position: absolute;
+    bottom: -2rem;
+    padding: 0.3rem;
+    display: block;
+    width: 100%;
+}
+
+.footer-wrapper {
+    padding: 1.5rem;
+}
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * Vendor-prefixed and regular ::selection selectors cannot be combined:
+ * https://stackoverflow.com/a/16982510/7133471
+ *
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Browser Upgrade Prompt
+   ========================================================================== */
+
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Hide visually and from screen readers
+ */
+
+.hidden {
+    display: none !important;
+}
+
+/*
+* Hide only visually, but have it available for screen readers:
+* https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+*
+* 1. For long content, line feeds are not interpreted as spaces and small width
+*    causes content to wrap 1 word per line:
+*    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+*/
+
+.sr-only {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    /* 1 */
+}
+
+    /*
+* Extends the .sr-only class to allow the element
+* to be focusable when navigated to via the keyboard:
+* https://www.drupal.org/node/897638
+*/
+
+    .sr-only.focusable:active,
+    .sr-only.focusable:focus {
+        clip: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        position: static;
+        white-space: inherit;
+        width: auto;
+    }
+
+/*
+* Hide visually and from screen readers, but maintain layout
+*/
+
+/*
+* Clearfix: contain floats
+*
+* For modern browsers
+* 1. The space content is one way to avoid an Opera bug when the
+*    `contenteditable` attribute is included anywhere else in the document.
+*    Otherwise it causes space to appear at the top and bottom of elements
+*    that receive the `clearfix` class.
+* 2. The use of `table` rather than `block` is only necessary if using
+*    `:before` to contain the top-margins of child elements.
+*/
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    /* 1 */
+    display: table;
+    /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* ==========================================================================
+ Landing Page
+ ========================================================================== */
+
+/* Navigation*/
+.main-nav {
+    display: flex;
+    padding: .2rem .5rem;
+    font-size: 2rem;
+    position: absolute;
+    right: 1rem;
+    top: .8rem;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 15%;
+    z-index: 2;
+}
+
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #081e33;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    border-left: 1px solid #111;
+    text-align: center;
+}
+
+    /* Select the first 4 a elements*/
+    .sidenav a:nth-child(-n+3) {
+        padding: 1rem;
+        text-decoration: none;
+        font-size: 25px;
+        color: #fff;
+        display: inline-block;
+        transition: 0.3s;
+        margin: 2rem 1rem;
+    }
+
+.border-nav {
+    border: 1px solid grey;
+    border-radius: 5%;
+}
+
+.border-nav:hover {
+    background-color: aqua;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.nav-other {
+    margin-top: 2rem;
+}
+
+
+.closebtn {
+    left: 0.5rem;
+    top: 0.5rem;
+    line-height: 0px;
+}
+
+#logout-main {
+    display: inline-block;
+}
+
+button.nav-link.btn.text-light.main-logout {
+    display: block;
+    padding: 10px 10px 10px 32px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 6rem;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    margin-left: auto;
+    border-radius: 25%;
+    margin-top: 4rem;
+    text-shadow: 0 0 20px black;
+    font-size: 1rem;
+}
+
+svg.svg-inline--fa.fa-sign-out-alt.fa-w-16, #logout-main > button > svg {
+    font-size: 8rem;
+    display: block;
+}
+
+/* End Main navigation*/
+
+/* Navigation for other pages */
+
+header {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 5rem;
+    background-color: #081e33;
+    color: white;
+    text-align: center;
+    vertical-align: central;
+}
+
+.back-button {
+    float: left;
+    margin-left: 1rem;
+    position: absolute;
+    font-size: 2.5rem;
+}
+/* End Nav */
+
+.vert-centr {
+    margin-top: 20%;
+}
+
+.main-gym, .not-in-use {
+    background-color: cadetblue;
+    height: 60%;
+    max-width: 100%;
+    position: relative;
+}
+
+.main-gym-icon {
+    background-image: url('../images/main-gym-img1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    max-width: 100%;
+}
+
+.not-in-use {
+    opacity: 0.5;
+}
+
+.title-name {
+    color: white;
+    padding: 1.5rem;
+    font-size: 2rem;
+    /*box-shadow: 5px 10px #888888;*/
+    /*    -webkit-filter: drop-shadow(5px 5px 5px #666666);
+    filter: drop-shadow(5px 5px 5px #666666);*/
+}
+
+
+
+
+.main-pop-cont, .occupancy-title {
+    display: inline-block; /* TODO: Remove if not needed later, this ensures background used for testing*/
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    width: 14rem;
+    height: 4rem;
+    font-size: 0; /* This will make the inline blocks touch*/
+    text-align: center;
+    border: 1px solid #fff;
+}
+
+.realtime-indicator {
+    position: relative;
+    width: 25%;
+    border: 1px solid #fff;
+    height: 100%;
+    font-size: .6rem;
+    float: left;
+    color: #fff;
+    text-align: center;
+}
+
+.realtime-icons {
+    height: 75%;
+    width: 100%;
+    border: 1px solid #fff;
+    background-color: #fff;
+}
+
+    .realtime-icons img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+#est-total-in-gym-icon {
+    display: none;
+}
+
+.contain-est {
+    position: relative;
+}
+
+.expand-select-duration-arrow {
+    position: absolute;
+    right: 0;
+    bottom: 1rem;
+    font-size: 0.3rem;
+    line-height: 0;
+    color: #000;
+}
+
+#svg-arrow {
+    font-size: 1rem;
+    padding: 2px;
+    background-color: #fff;
+}
+
+.est-data {
+    width: 80%;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+    .navbar a {
+        float: left;
+        font-size: 16px;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+    .dropdown .dropbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
+    }
+
+    .navbar a:hover, .dropdown:hover .dropbtn {
+        background-color: red;
+    }
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+.occupancy-title {
+    bottom: 5rem;
+    right: 1rem;
+    width: 14rem;
+    height: 1.3rem;
+    font-size: 0.7rem; /* This will make the inline blocks touch*/
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+/* Log workout on main page */
+.log-workout-home {
+    display: inline-block; /* TODO: Remove if not needed later, this ensures background used for testing*/
+    position: absolute;
+    bottom: 1rem;
+    left: 1.2rem;
+    width: 4.5rem;
+    height: 1rem;
+    font-size: 0.7rem; /* This will make the inline blocks touch*/
+    border: 1px solid #fff;
+    text-align: center;
+    color: #fff;
+}
+
+body > main > div.main-gym > div > div.log-workout-home > a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.access {
+    text-align: center;
+    position: relative;
+}
+
+.access-container {
+    display: inline-block;
+    margin-top: 6%;
+}
+
+/* TODO: Add Unlocked to activate with javascript/C# to stay unlocked pic while counter is not 0*/
+.locked, .unlocked {
+    font-size: 10rem;
+    display: inline-block;
+    line-height: 2px; /* This removes the vertical margin */
+    color: #032763;
+    margin-top: 1rem;
+}
+
+.door-status {
+    padding-top: 2rem;
+}
+/* Login style */
+.banner {
+    display: block;
+    position: relative;
+    /*background-image: url('../images/gympass-banner.png');
+    background-repeat: no-repeat;
+    background-size: contain;*/
+    width: 100%;
+    height: 10rem;
+    line-height: 0;
+}
+
+    .banner img {
+        width: 100%;
+        max-height: 100%;
+    }
+
+    .banner h1 {
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -65%); /* Center absolute position items like this */
+    }
+
+    .banner .logo {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -60%); /* Center absolute position items like this */
+    }
+
+.logo {
+    max-width: 5rem;
+}
+
+.fingerprint {
+    margin: auto;
+    height: 4rem;
+}
+
+    .fingerprint img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+/* Map and camera modal */
+#map {
+    text-align: center;
+}
+
+#map-button, #camera-button {
+    position: absolute;
+    height: 2rem;
+    width: 2rem;
+    margin: 0.6rem 1rem;
+}
+
+#camera-button {
+    right: 0;
+}
+
+#camera-img {
+    margin-left: 5%;
+}
+
+#map-button > svg, #camera-button > svg {
+    height: 100%;
+    width: 100%;
+}
+
+#mapContainer {
+    width: 100%;
+    height: 25rem;
+}
+
+#map > div > div.modalz-header > h4 {
+    padding: 0.2rem;
+}
+
+.modalz {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modalz-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.modalz-header {
+    padding: 2px 16px;
+    background-color: #007bff;
+    color: white;
+}
+
+.modalz-body {
+    padding: 2px 16px;
+}
+
+.modalz-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+#est-drop-down {
+    position: absolute;
+    bottom: 0;
+    right: 1rem;
+    line-height: 0;
+}
+
+#userDetails {
+    height: 0.95rem;
+    font-size: 0.7rem;
+    color: #fff;
+    background-color: #000;
+}
+
+select#userDetails {
+    border: none;
+}
+
+/* Camera Display */
+#results {
+    text-align: center;
+}
+
+div#my_camera {
+    width: 0;
+}
+
+.panel-body {
+    text-align: center;
+}
+
+.face-match-outcome {
+    margin: 1rem;
+}
+
+
+/* Log workout styling */
+.workout-log-bg {
+    position: absolute;
+    background-image: url('../images/log-workout-bg.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    top: 5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    height: 100%;
+    width: 100%;
+}
+
+.containerz {
+    position: absolute;
+    border: 0.5rem solid #007bff;
+    text-align: center;
+    width: 90%;
+    max-width: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+}
+
+.message-box {
+    padding: 1rem;
+}
+
+/* Register page */
+
+.reg {
+    font-size: 0.8rem;
+    margin: 1rem 0;
+}
+
+.note {
+    font-size: 0.6rem;
+}
+
+.reg-inp-short {
+    width: 10rem;
+    margin: 0 1rem;
+}
+
+#Input_Password, #Input_TestLat {
+    margin-right: 0.5rem;
+}
+
+#Input_ConfirmPassword, #Input_TestLong {
+    margin-left: 0.5rem;
+}
+
+.upload-file {
+    float: left;
+}
+
+input#Input_UserImage.upload-file {
+    width: 12rem;
+}
+
+/* Manage Profile */
+.prof-head {
+    /*background-color: #007bff;*/
+    display: inline-block;
+    margin: auto;
+    padding: 5px;
+    margin-top: 0.2rem;
+    color: #fff;
+    text-shadow: 0 0 7px black;
+}
+
+.scroll-profile-options {
+    height: 5rem;
+    overflow: auto;
+    width: 100%;
+    margin: 0.5rem 2rem;
+    border: 2px solid #fff;
+    padding-bottom: 1rem;
+}
+
+#profile {
+    /*margin: 0 2rem;*/
+    /*border: 2px solid #fff;*/
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .main-gym-icon {
+    }
+
+    .title-name {
+        font-size: 1.5rem;
+    }
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: 600px) {
+    }
+    /* End navigation animation*/
+
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media only screen and (min-width: 768px) {
+    }
+
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 992px) {
+    }
+
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    @media only screen and (min-width: 1200px) {
+    }
+
+    /* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+    @media only screen and (min-width: 35em) {
+        /* Style adjustments for viewports that meet the condition */
+    }
+
+    @media print, (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx), (min-resolution: 120dpi) {
+        /* Style adjustments for high resolution devices */
+    }
+
+    /* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   https://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+
+    @media print {
+        *,
+        *:before,
+        *:after {
+            background: transparent !important;
+            color: #000 !important;
+            /* Black prints faster */
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+        }
+
+        a,
+        a:visited {
+            text-decoration: underline;
+        }
+
+            a[href]:after {
+                content: " (" attr(href) ")";
+            }
+
+        abbr[title]:after {
+            content: " (" attr(title) ")";
+        }
+        /*
+     * Don't show links that are fragment identifiers,
+     * or use the `javascript:` pseudo protocol
+     */
+        a[href^="#"]:after,
+        a[href^="javascript:"]:after {
+            content: "";
+        }
+
+        pre {
+            white-space: pre-wrap !important;
+        }
+
+        pre,
+        blockquote {
+            border: 1px solid #999;
+            page-break-inside: avoid;
+        }
+        /*
+     * Printing Tables:
+     * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
+     */
+        thead {
+            display: table-header-group;
+        }
+
+        tr,
+        img {
+            page-break-inside: avoid;
+        }
+
+        p,
+        h2,
+        h3 {
+            orphans: 3;
+            widows: 3;
+        }
+
+        h2,
+        h3 {
+            page-break-after: avoid;
+        }
+    }
+}

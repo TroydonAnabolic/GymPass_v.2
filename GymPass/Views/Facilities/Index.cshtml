@@ -1,0 +1,78 @@
+﻿@model IEnumerable<GymPass.Models.Facility>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FacilityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfClientsInGym)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfClientsUsingWeightRoom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfClientsUsingCardioRoom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfClientsUsingStretchRoom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsOpenDoorRequested)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DoorOpened)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DoorCloseTimer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FacilityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfClientsInGym)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfClientsUsingWeightRoom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfClientsUsingCardioRoom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfClientsUsingStretchRoom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsOpenDoorRequested)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoorOpened)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoorCloseTimer)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FacilityID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FacilityID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FacilityID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,67 @@
+﻿@model GymPass.Models.Facility
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Facility</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FacilityID" />
+            <div class="form-group">
+                <label asp-for="FacilityName" class="control-label"></label>
+                <input asp-for="FacilityName" class="form-control" />
+                <span asp-validation-for="FacilityName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfClientsInGym" class="control-label"></label>
+                <input asp-for="NumberOfClientsInGym" class="form-control" />
+                <span asp-validation-for="NumberOfClientsInGym" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfClientsUsingWeightRoom" class="control-label"></label>
+                <input asp-for="NumberOfClientsUsingWeightRoom" class="form-control" />
+                <span asp-validation-for="NumberOfClientsUsingWeightRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfClientsUsingCardioRoom" class="control-label"></label>
+                <input asp-for="NumberOfClientsUsingCardioRoom" class="form-control" />
+                <span asp-validation-for="NumberOfClientsUsingCardioRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfClientsUsingStretchRoom" class="control-label"></label>
+                <input asp-for="NumberOfClientsUsingStretchRoom" class="form-control" />
+                <span asp-validation-for="NumberOfClientsUsingStretchRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsOpenDoorRequested" /> @Html.DisplayNameFor(model => model.IsOpenDoorRequested)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="DoorOpened" /> @Html.DisplayNameFor(model => model.DoorOpened)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoorCloseTimer" class="control-label"></label>
+                <input asp-for="DoorCloseTimer" class="form-control" />
+                <span asp-validation-for="DoorCloseTimer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
