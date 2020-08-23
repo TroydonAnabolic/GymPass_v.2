@@ -29,12 +29,14 @@
     <main role="main" class="">
         <partial name="_NavPartial" />
         @RenderBody()
+
+
     </main>
-
-
-        <footer class= "bg-dark">
-            &copy; 2020 - GymPass - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </footer>
+    <div class="footer-wrap">
+    <footer id="footer" class="bg-dark">
+        &copy; @DateTime.Now.Day/@DateTime.Now.Month/2020 - GymPass - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
