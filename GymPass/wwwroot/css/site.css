@@ -887,7 +887,7 @@ input#Input_UserImage.upload-file {
         margin-top: 1rem;
     }
     #open-door-request {
-        margin-top: 1rem;
+        margin-top: -1rem;
     }
 }
 /* Extra small devices (phones, 600px and down) */
@@ -897,7 +897,7 @@ input#Input_UserImage.upload-file {
         margin-top: 1rem;
     }
     #open-door-request {
-        margin-top: 1.5rem;
+        margin-top: 0;
     }
 }
 @media only screen and (max-height: 736px ) and (min-height: 668px) {

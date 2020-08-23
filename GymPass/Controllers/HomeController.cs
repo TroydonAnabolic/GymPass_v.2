@@ -105,7 +105,8 @@ namespace GymPass.Controllers
             if (DateTime.Now <= (user.TimeAccessDenied.AddSeconds(10)))
                 ViewBag.AccessDeniedMsgRecieved = false;
 
-            ViewBag.AccessRequestedTime = _facilityContext.Facilities.FirstOrDefault().TimeAccessRequested;  // assign access request time to be based on the time any user requested it
+            var timeSinceAccessRequested = DateTime.Now - facility.TimeAccessRequested;
+            ViewBag.TimeSinceAccessRequestedInMilliSecs = timeSinceAccessRequested.TotalMilliseconds;
 
             // TODO: Logic for conditonally displaying if current time after last workout logged then send to log workout, and inside gym
             //if (DateTime.Now > user.TimeLoggedWorkout && user.IsInsideGym)

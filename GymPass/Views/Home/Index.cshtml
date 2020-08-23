@@ -351,9 +351,9 @@
             }
         </div>
         @* Display a red dot to indicate we are currently waiting for current person to enter the gym *@
-            <div id="open-door-request" class="blink">
-
-            </div>
+    <div id="open-door-request" class="blink">
+        <div id="time-door-requested" class="hidden">@ViewBag.TimeSinceAccessRequestedInMilliSecs</div>
+    </div>
     </div>
 }
 

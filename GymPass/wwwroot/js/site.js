@@ -33,22 +33,6 @@ function take_snapshot() {
                 });
         });
     }
-    //else if (currentPage == registerPage) {
-    //    Webcam.snap(function (data_uri) {
-    //        // display results in page  
-    //        document.getElementById('taget-img-results').innerHTML =
-    //            '<img id="base64image" src="' +
-    //            data_uri +
-    //            '"/>';
-    //       // console.log(data_uri)
-    //        //      upload webcam api
-    //        // TODO: Onclick save - run the upload function - otherwise just save the snapshot in webs
-    //        //Webcam.upload(data_uri,
-    //        //    '/Facilities/Capture',
-    //        //    function (code, text) {
-    //        //        console.log('Photo Captured');
-    //        //    });
-
     //        $.ajax({
     //            type: "POST",
     //            url: registerRedirectLink, // trying to get: https://localhost:44314/Home/Index/10
@@ -79,6 +63,7 @@ $(document).ready(function () {
     if (w > 441) {
       //TODO: enable before deployment  alert("This app was designed for mobile, please resize browser using Inspector tool -> Toggle Device Toolbar -> Select Responsive. For the best experience")
     }
+
     /*
     *  ------------------------------------------------ Navigation Scripts  ----------------------------------------------------------------
     */
@@ -138,6 +123,29 @@ $(document).ready(function () {
         }
     });
 
+    // the amount of time that has passed since the last access request was made and page was loaded
+    var timeSinceAccessRequested = $('#time-door-requested').html();
+    // e.g timeBeforeStopBlinkDot = totalTimeForBlinkingDotToStop = 3000 milliseconds - time in milliseconds that has passed so far since page last loaded = 1000 milliseconds. This means 2000 milliseconds b4 it stops
+    // timeBeforeStopBlinkDot is bascially determined on page load, and updates each time page loads again
+    var timeBeforeStopBlinkDot =  3000 - timeSinceAccessRequested;
+
+    console.log("Time left to stop blinking in milli: " + timeSinceAccessRequested);
+    console.log("Time left to stop blinking in milli: " + timeBeforeStopBlinkDot);
+
+    // if the number of time for blinking to stop is less or equal to 0 then add the hidden class to the dot if it is not already
+    if (timeBeforeStopBlinkDot <= 0) {
+        $('#open-door-request').css('display','none');
+        console.log("Enough time has passed to hide element");
+    }
+    // otherwise set a timeout for the dot to stop blinking, TODO: may need to have initially hidden
+    else {
+        console.log(timeBeforeStopBlinkDot + " milliseconds left before blinking will stop");
+        setTimeout(function () {
+            $('#open-door-request').css('display', 'none');
+        }, timeBeforeStopBlinkDot);
+    }
+  
+    
     // when we click the open button(given user is not inside and door), first show remove the hidden attr from the scanning, so it will show scanning
     // after 5 seconds it will remove scanning
     var btn = $("#submit-icon");
